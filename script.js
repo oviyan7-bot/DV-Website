@@ -1,3 +1,4 @@
+const app = document.getElementById("app");
 const hero = document.getElementById("hero");
 const yesButton = document.getElementById("yesButton");
 const maybeButton = document.getElementById("maybeButton");
@@ -19,27 +20,44 @@ const defaultHeroBackground =
 
 hero.style.backgroundImage = defaultHeroBackground;
 
-yesButton.addEventListener("click", () => {
-  proposalResponse.textContent = "She said YES. 💞";
+function setActiveTab(tabName) {
+  tabs.forEach((button) => button.classList.remove("active"));
+  panels.forEach((panel) => panel.classList.remove("active"));
+
+  const selectedTab = tabs.find((tab) => tab.dataset.tab === tabName) || tabs[0];
+  const selectedPanel = document.getElementById(selectedTab.dataset.tab);
+
+  if (!selectedPanel) return;
+
+  selectedTab.classList.add("active");
+  selectedPanel.classList.add("active");
+}
+
+function revealValentineContent(responseText, tabName = "itinerary") {
+  proposalResponse.textContent = responseText;
   proposalResponse.classList.remove("hidden");
+
   valentineTabs.classList.remove("hidden");
+  app.classList.add("content-revealed");
+  setActiveTab(tabName);
+
   valentineTabs.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+yesButton.addEventListener("click", () => {
+  revealValentineContent("She said YES. 💞", "itinerary");
 });
 
 maybeButton.addEventListener("click", () => {
-  proposalResponse.textContent = "Reason #108: Every plan is better with Divya in it ✨";
-  proposalResponse.classList.remove("hidden");
+  revealValentineContent(
+    "Reason #108: Every plan is better with Divya in it ✨",
+    "letter"
+  );
 });
 
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
-    const selected = tab.dataset.tab;
-
-    tabs.forEach((button) => button.classList.remove("active"));
-    panels.forEach((panel) => panel.classList.remove("active"));
-
-    tab.classList.add("active");
-    document.getElementById(selected).classList.add("active");
+    setActiveTab(tab.dataset.tab);
   });
 });
 

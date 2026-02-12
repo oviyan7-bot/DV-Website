@@ -14,14 +14,6 @@
         <h1>Hi Divya 💖</h1>
         <p>This page was made just for you.</p>
 
-        <label class="upload-control" for="bgUpload">
-          Upload our background photo
-          <input id="bgUpload" type="file" accept="image/*" />
-        </label>
-        <button id="clearBgButton" class="ghost-button hidden" type="button" aria-label="Remove uploaded background photo">
-          ✕ Remove uploaded photo
-        </button>
-
         <div class="proposal-box">
           <p class="proposal-question">Will you be my valentine?</p>
           <div class="proposal-actions">
@@ -42,7 +34,6 @@
 
       <article id="itinerary" class="tab-panel active">
         <h2>Our Valentine's Itinerary</h2>
-        <p>Build the plan with clear times, activities, and locations.</p>
 
         <div class="planner-form">
           <label>
@@ -64,49 +55,19 @@
       </article>
 
       <article id="letter" class="tab-panel">
-        <h2>Love Letter to Divya</h2>
-        <p>Create a richer letter and preview it like a real note.</p>
-
-        <div class="letter-builder">
-          <label>
-            Greeting
-            <input id="greetingInput" type="text" value="My Dearest Divya," />
-          </label>
-
-          <label>
-            Opening thoughts
-            <textarea id="openingInput" placeholder="How do you feel when you think of her?"></textarea>
-          </label>
-
-          <div class="memory-builder">
-            <label>
-              Favorite memory
-              <input id="memoryInput" type="text" placeholder="A small moment you never want to forget" />
-            </label>
-            <button id="addMemoryButton" class="ghost-button" type="button">Add memory</button>
-          </div>
-          <ul id="memoryList" class="memory-list"></ul>
-
-          <label>
-            Promise for the future
-            <textarea id="promiseInput" placeholder="What do you promise for your future together?"></textarea>
-          </label>
-
-          <label>
-            Signature
-            <input id="signatureInput" type="text" value="Forever yours," />
-          </label>
-        </div>
+        <h2>Love Letter</h2>
 
         <section class="letter-preview" aria-live="polite">
-          <h3>Letter Preview</h3>
-          <div id="letterPreviewBody" class="letter-paper"></div>
+          <div class="letter-paper">
+            <p class="letter-greeting">My Dearest Divya,</p>
+            <textarea id="letterTextbox" placeholder="Write your message here..."></textarea>
+            <p class="letter-signoff">Love,<br />Ovi</p>
+          </div>
         </section>
       </article>
 
       <article id="collage" class="tab-panel">
         <h2>Picture Collage</h2>
-        <p>Add photos and resize by width and height, so composition stays how you want it.</p>
         <label class="upload-control pink-control" for="collageUpload">
           Add photos to collage
           <input id="collageUpload" type="file" accept="image/*" multiple />

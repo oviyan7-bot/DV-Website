@@ -13,6 +13,10 @@ const eventTitle = document.getElementById("eventTitle");
 const eventLocation = document.getElementById("eventLocation");
 const itineraryList = document.getElementById("itineraryList");
 
+const letterTextbox = document.getElementById("letterTextbox");
+const publishLetterButton = document.getElementById("publishLetterButton");
+const letterStatus = document.getElementById("letterStatus");
+
 const collageGrid = document.getElementById("collageGrid");
 
 const defaultHeroBackground =
@@ -59,6 +63,20 @@ tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     setActiveTab(tab.dataset.tab);
   });
+});
+
+
+let isLetterPublished = false;
+
+publishLetterButton.addEventListener("click", () => {
+  if (isLetterPublished) return;
+
+  isLetterPublished = true;
+  letterTextbox.readOnly = true;
+  letterTextbox.classList.add("published");
+  publishLetterButton.disabled = true;
+  publishLetterButton.textContent = "Published ✨";
+  letterStatus.textContent = "Your letter is published and can no longer be edited.";
 });
 
 const itineraryItems = [];
@@ -115,12 +133,29 @@ addEventButton.addEventListener("click", () => {
   renderItinerary();
 });
 
-function createCollageSlots(slotCount = 8) {
+const collageSlotStyles = [
+  ["collage-slot--hero", "collage-slot--rounded"],
+  ["collage-slot--tall", "collage-slot--blob"],
+  ["collage-slot--wide"],
+  ["collage-slot--diamond"],
+  ["collage-slot--wide", "collage-slot--rounded"],
+  ["collage-slot--tall"],
+  ["collage-slot--blob"],
+  ["collage-slot--wide", "collage-slot--diamond"],
+  ["collage-slot--rounded"],
+  ["collage-slot--tall", "collage-slot--rounded"],
+  ["collage-slot--wide", "collage-slot--blob"],
+  ["collage-slot--diamond"],
+];
+
+function createCollageSlots(slotCount = collageSlotStyles.length) {
   collageGrid.innerHTML = "";
 
   for (let index = 0; index < slotCount; index += 1) {
     const slot = document.createElement("label");
     slot.className = "collage-slot";
+    const slotClasses = collageSlotStyles[index % collageSlotStyles.length];
+    slot.classList.add(...slotClasses);
 
     const input = document.createElement("input");
     input.type = "file";

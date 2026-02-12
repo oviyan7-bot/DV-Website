@@ -1,6 +1,4 @@
 const hero = document.getElementById("hero");
-const bgUpload = document.getElementById("bgUpload");
-const clearBgButton = document.getElementById("clearBgButton");
 const yesButton = document.getElementById("yesButton");
 const maybeButton = document.getElementById("maybeButton");
 const proposalResponse = document.getElementById("proposalResponse");
@@ -14,15 +12,6 @@ const eventTitle = document.getElementById("eventTitle");
 const eventLocation = document.getElementById("eventLocation");
 const itineraryList = document.getElementById("itineraryList");
 
-const greetingInput = document.getElementById("greetingInput");
-const openingInput = document.getElementById("openingInput");
-const memoryInput = document.getElementById("memoryInput");
-const addMemoryButton = document.getElementById("addMemoryButton");
-const memoryList = document.getElementById("memoryList");
-const promiseInput = document.getElementById("promiseInput");
-const signatureInput = document.getElementById("signatureInput");
-const letterPreviewBody = document.getElementById("letterPreviewBody");
-
 const collageUpload = document.getElementById("collageUpload");
 const collageGrid = document.getElementById("collageGrid");
 
@@ -30,24 +19,6 @@ const defaultHeroBackground =
   "url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1500&q=80')";
 
 hero.style.backgroundImage = defaultHeroBackground;
-
-bgUpload.addEventListener("change", (event) => {
-  const [file] = event.target.files;
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (loadEvent) => {
-    hero.style.backgroundImage = `url('${loadEvent.target.result}')`;
-    clearBgButton.classList.remove("hidden");
-  };
-  reader.readAsDataURL(file);
-});
-
-clearBgButton.addEventListener("click", () => {
-  hero.style.backgroundImage = defaultHeroBackground;
-  bgUpload.value = "";
-  clearBgButton.classList.add("hidden");
-});
 
 yesButton.addEventListener("click", () => {
   proposalResponse.textContent = "She said YES. 💞";
@@ -121,129 +92,30 @@ addEventButton.addEventListener("click", () => {
   renderItinerary();
 });
 
-const memories = [];
-
-function renderMemories() {
-  memoryList.innerHTML = "";
-
-  memories.forEach((memory) => {
-    const li = document.createElement("li");
-    li.textContent = memory;
-    memoryList.append(li);
-  });
-
-  renderLetter();
-}
-
-function paragraphFromText(text) {
-  return text
-    .split("\n")
-    .filter((line) => line.trim())
-    .map((line) => `<p>${line}</p>`)
-    .join("");
-}
-
-function renderLetter() {
-  const greeting = greetingInput.value.trim() || "My Dearest Divya,";
-  const opening = paragraphFromText(openingInput.value.trim());
-  const promise = paragraphFromText(promiseInput.value.trim());
-  const signature = signatureInput.value.trim() || "Forever yours,";
-
-  const memorySection = memories.length
-    ? `<p><strong>My favorite moments with you:</strong></p><ul>${memories
-        .map((memory) => `<li>${memory}</li>`)
-        .join("")}</ul>`
-    : "";
-
-  letterPreviewBody.innerHTML = `
-    <p>${greeting}</p>
-    ${opening || "<p>You make every ordinary day feel extraordinary.</p>"}
-    ${memorySection}
-    ${promise || "<p>I promise to keep choosing you, in all the little moments and all the big ones.</p>"}
-    <p>${signature}<br />Your Valentine</p>
-  `;
-}
-
-addMemoryButton.addEventListener("click", () => {
-  const value = memoryInput.value.trim();
-  if (!value) return;
-
-  memories.push(value);
-  memoryInput.value = "";
-  renderMemories();
-});
-
-[greetingInput, openingInput, promiseInput, signatureInput].forEach((input) => {
-  input.addEventListener("input", renderLetter);
-});
-
 collageUpload.addEventListener("change", (event) => {
   const files = Array.from(event.target.files || []);
-  files.forEach((file) => createCollageCard(file));
+  files.forEach((file) => createCollageItem(file));
   collageUpload.value = "";
 });
 
-function createRangeControl(labelText, value, onInput) {
-  const label = document.createElement("label");
-  label.textContent = labelText;
-
-  const slider = document.createElement("input");
-  slider.type = "range";
-  slider.min = "80";
-  slider.max = "360";
-  slider.value = String(value);
-
-  slider.addEventListener("input", () => onInput(Number(slider.value)));
-
-  label.append(slider);
-  return { label, slider };
-}
-
-function createCollageCard(file) {
+function createCollageItem(file) {
   if (!file.type.startsWith("image/")) return;
 
-  const card = document.createElement("div");
-  card.className = "collage-card";
-
-  const frame = document.createElement("div");
-  frame.className = "collage-frame";
+  const wrapper = document.createElement("div");
+  wrapper.className = "collage-item";
 
   const image = document.createElement("img");
   image.alt = `Collage photo ${file.name}`;
 
-  let width = 180;
-  let height = 180;
-
-  const applyDimensions = () => {
-    image.style.setProperty("--img-width", `${width}px`);
-    image.style.setProperty("--img-height", `${height}px`);
-  };
-
-  const widthControl = createRangeControl("Width", width, (nextWidth) => {
-    width = nextWidth;
-    applyDimensions();
-  });
-
-  const heightControl = createRangeControl("Height", height, (nextHeight) => {
-    height = nextHeight;
-    applyDimensions();
-  });
-
-  const controls = document.createElement("div");
-  controls.className = "resize-controls";
-  controls.append(widthControl.label, heightControl.label);
-
   const reader = new FileReader();
   reader.onload = (loadEvent) => {
     image.src = loadEvent.target.result;
-    applyDimensions();
+    image.style.height = `${180 + Math.floor(Math.random() * 280)}px`;
   };
   reader.readAsDataURL(file);
 
-  frame.append(image);
-  card.append(frame, controls);
-  collageGrid.append(card);
+  wrapper.append(image);
+  collageGrid.append(wrapper);
 }
 
 renderItinerary();
-renderLetter();

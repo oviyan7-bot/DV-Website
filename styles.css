@@ -191,7 +191,7 @@ textarea {
 
 .itinerary-item {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 80px 1fr auto;
   gap: 0.9rem;
   background: #fff;
   border: 1px solid #ffd1e1;
@@ -207,6 +207,20 @@ textarea {
 .itinerary-meta {
   margin: 0.2rem 0 0;
   color: #5f3c4d;
+}
+
+.remove-event-button {
+  border: 1px solid #f3b8cf;
+  background: #fff0f6;
+  color: #7a2c50;
+  border-radius: 10px;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  align-self: start;
+}
+
+.remove-event-button:hover {
+  background: #ffdce9;
 }
 
 .letter-paper {
@@ -231,59 +245,55 @@ textarea {
   background: #fff;
 }
 
-.upload-control {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin: 1rem 0;
-  padding: 0.9rem 1rem;
-  border-radius: 12px;
-}
-
-.pink-control {
-  background: #ffe3ee;
+.collage-help {
+  margin: 0.2rem 0 1rem;
   color: #6b2441;
 }
 
-.pink-control input[type="file"] {
-  color: #6b2441;
+.collage-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.9rem;
 }
 
-.collage-grid {
-  column-count: 4;
-  column-gap: 0.9rem;
-  margin-top: 1rem;
-}
-
-.collage-item {
-  break-inside: avoid;
-  margin-bottom: 0.9rem;
+.collage-slot {
+  position: relative;
+  aspect-ratio: 1 / 1;
   border-radius: 12px;
+  border: 1px dashed #f3b8cf;
   overflow: hidden;
-  background: #fff;
-  border: 1px solid #ffd1e1;
+  background: #fff7fb;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
 }
 
-.collage-item img {
+.collage-slot-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.collage-slot-placeholder {
+  font-weight: 600;
+  color: #7a2c50;
+  text-align: center;
+  padding: 0.6rem;
+}
+
+.collage-slot-image {
   width: 100%;
-  display: block;
+  height: 100%;
   object-fit: cover;
 }
 
-@media (max-width: 980px) {
-  .collage-grid {
-    column-count: 3;
-  }
-}
-
 @media (max-width: 700px) {
-  .collage-grid {
-    column-count: 2;
+  .itinerary-item {
+    grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 460px) {
-  .collage-grid {
-    column-count: 1;
+  .remove-event-button {
+    justify-self: start;
   }
 }

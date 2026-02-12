@@ -12,7 +12,6 @@ const eventTitle = document.getElementById("eventTitle");
 const eventLocation = document.getElementById("eventLocation");
 const itineraryList = document.getElementById("itineraryList");
 
-const collageUpload = document.getElementById("collageUpload");
 const collageGrid = document.getElementById("collageGrid");
 
 const defaultHeroBackground =
@@ -44,10 +43,7 @@ tabs.forEach((tab) => {
   });
 });
 
-const itineraryItems = [
-  { time: "10:00", title: "Coffee Date", location: "Our favorite café" },
-  { time: "18:30", title: "Dinner", location: "Candlelight table for two" },
-];
+const itineraryItems = [];
 
 function renderItinerary() {
   itineraryList.innerHTML = "";
@@ -55,7 +51,7 @@ function renderItinerary() {
   itineraryItems
     .slice()
     .sort((a, b) => a.time.localeCompare(b.time))
-    .forEach((item) => {
+    .forEach((item, index) => {
       const li = document.createElement("li");
       li.className = "itinerary-item";
 
@@ -71,8 +67,17 @@ function renderItinerary() {
       location.className = "itinerary-meta";
       location.textContent = item.location || "Location to be decided";
 
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "remove-event-button";
+      removeButton.textContent = "Remove";
+      removeButton.addEventListener("click", () => {
+        itineraryItems.splice(index, 1);
+        renderItinerary();
+      });
+
       details.append(title, location);
-      li.append(time, details);
+      li.append(time, details, removeButton);
       itineraryList.append(li);
     });
 }
@@ -92,30 +97,43 @@ addEventButton.addEventListener("click", () => {
   renderItinerary();
 });
 
-collageUpload.addEventListener("change", (event) => {
-  const files = Array.from(event.target.files || []);
-  files.forEach((file) => createCollageItem(file));
-  collageUpload.value = "";
-});
+function createCollageSlots(slotCount = 8) {
+  collageGrid.innerHTML = "";
 
-function createCollageItem(file) {
-  if (!file.type.startsWith("image/")) return;
+  for (let index = 0; index < slotCount; index += 1) {
+    const slot = document.createElement("label");
+    slot.className = "collage-slot";
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "collage-item";
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.className = "collage-slot-input";
 
-  const image = document.createElement("img");
-  image.alt = `Collage photo ${file.name}`;
+    const placeholder = document.createElement("span");
+    placeholder.className = "collage-slot-placeholder";
+    placeholder.textContent = `Upload photo ${index + 1}`;
 
-  const reader = new FileReader();
-  reader.onload = (loadEvent) => {
-    image.src = loadEvent.target.result;
-    image.style.height = `${180 + Math.floor(Math.random() * 280)}px`;
-  };
-  reader.readAsDataURL(file);
+    const preview = document.createElement("img");
+    preview.className = "collage-slot-image hidden";
+    preview.alt = `Collage slot ${index + 1}`;
 
-  wrapper.append(image);
-  collageGrid.append(wrapper);
+    input.addEventListener("change", (event) => {
+      const file = event.target.files?.[0];
+      if (!file || !file.type.startsWith("image/")) return;
+
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        preview.src = loadEvent.target.result;
+        preview.classList.remove("hidden");
+        placeholder.classList.add("hidden");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    slot.append(input, placeholder, preview);
+    collageGrid.append(slot);
+  }
 }
 
+createCollageSlots();
 renderItinerary();

@@ -57,22 +57,15 @@
       <article id="letter" class="tab-panel">
         <h2>Love Letter</h2>
 
-        <section class="letter-preview" aria-live="polite">
-          <div class="letter-paper">
-            <p class="letter-greeting">My Dearest Divya,</p>
-            <textarea id="letterTextbox" placeholder="Write your message here..."></textarea>
-            <p class="letter-signoff">Love,<br />Ovi</p>
-          </div>
-        </section>
+        <div class="letter-paper">
+          <textarea id="letterTextbox" placeholder="Write your message here..."></textarea>
+        </div>
       </article>
 
       <article id="collage" class="tab-panel">
         <h2>Picture Collage</h2>
-        <label class="upload-control pink-control" for="collageUpload">
-          Add photos to collage
-          <input id="collageUpload" type="file" accept="image/*" multiple />
-        </label>
-        <div id="collageGrid" class="collage-grid" aria-live="polite"></div>
+        <p class="collage-help">Upload each photo into a slot to build your collage layout.</p>
+        <div id="collageGrid" class="collage-layout" aria-live="polite"></div>
       </article>
     </section>
   </main>

@@ -58,18 +58,51 @@
         <h2>Love Letter</h2>
 
         <div class="letter-paper">
-          <textarea id="letterTextbox" placeholder="Write your message here..."></textarea>
-          <div class="letter-actions">
+          <div class="letter-actions letter-actions--top">
             <button id="publishLetterButton" class="primary-button" type="button">Publish letter 💌</button>
             <p id="letterStatus" class="letter-status" aria-live="polite"></p>
           </div>
+          <textarea id="letterTextbox" placeholder="Write your message here..."></textarea>
         </div>
       </article>
 
       <article id="collage" class="tab-panel">
         <h2>Picture Collage</h2>
-        <p class="collage-help">Upload each photo into a slot to build your collage layout.</p>
-        <div id="collageGrid" class="collage-layout" aria-live="polite"></div>
+        <p class="collage-help">Upload each photo into the frame to match the collage style.</p>
+
+        <div class="collage-frame" aria-live="polite">
+          <div id="collageGrid" class="collage-layout">
+            <label class="collage-slot collage-slot--left-top">
+              <input type="file" accept="image/*" class="collage-slot-input" />
+              <span class="collage-slot-placeholder">Upload photo 1</span>
+              <img class="collage-slot-image hidden" alt="Collage slot 1" />
+            </label>
+
+            <label class="collage-slot collage-slot--left-bottom">
+              <input type="file" accept="image/*" class="collage-slot-input" />
+              <span class="collage-slot-placeholder">Upload photo 2</span>
+              <img class="collage-slot-image hidden" alt="Collage slot 2" />
+            </label>
+
+            <label class="collage-slot collage-slot--right-top">
+              <input type="file" accept="image/*" class="collage-slot-input" />
+              <span class="collage-slot-placeholder">Upload photo 3</span>
+              <img class="collage-slot-image hidden" alt="Collage slot 3" />
+            </label>
+
+            <label class="collage-slot collage-slot--right-middle">
+              <input type="file" accept="image/*" class="collage-slot-input" />
+              <span class="collage-slot-placeholder">Upload photo 4</span>
+              <img class="collage-slot-image hidden" alt="Collage slot 4" />
+            </label>
+
+            <label class="collage-slot collage-slot--right-bottom">
+              <input type="file" accept="image/*" class="collage-slot-input" />
+              <span class="collage-slot-placeholder">Upload photo 5</span>
+              <img class="collage-slot-image hidden" alt="Collage slot 5" />
+            </label>
+          </div>
+        </div>
       </article>
     </section>
   </main>

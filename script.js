@@ -17,7 +17,7 @@ const letterTextbox = document.getElementById("letterTextbox");
 const publishLetterButton = document.getElementById("publishLetterButton");
 const letterStatus = document.getElementById("letterStatus");
 
-const collageGrid = document.getElementById("collageGrid");
+const collageSlots = Array.from(document.querySelectorAll(".collage-slot"));
 
 const defaultHeroBackground =
   "url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1500&q=80')";
@@ -133,60 +133,26 @@ addEventButton.addEventListener("click", () => {
   renderItinerary();
 });
 
-const collageSlotStyles = [
-  ["collage-slot--hero", "collage-slot--rounded"],
-  ["collage-slot--tall", "collage-slot--blob"],
-  ["collage-slot--wide"],
-  ["collage-slot--diamond"],
-  ["collage-slot--wide", "collage-slot--rounded"],
-  ["collage-slot--tall"],
-  ["collage-slot--blob"],
-  ["collage-slot--wide", "collage-slot--diamond"],
-  ["collage-slot--rounded"],
-  ["collage-slot--tall", "collage-slot--rounded"],
-  ["collage-slot--wide", "collage-slot--blob"],
-  ["collage-slot--diamond"],
-];
+collageSlots.forEach((slot, index) => {
+  const input = slot.querySelector(".collage-slot-input");
+  const placeholder = slot.querySelector(".collage-slot-placeholder");
+  const preview = slot.querySelector(".collage-slot-image");
 
-function createCollageSlots(slotCount = collageSlotStyles.length) {
-  collageGrid.innerHTML = "";
+  if (!input || !placeholder || !preview) return;
 
-  for (let index = 0; index < slotCount; index += 1) {
-    const slot = document.createElement("label");
-    slot.className = "collage-slot";
-    const slotClasses = collageSlotStyles[index % collageSlotStyles.length];
-    slot.classList.add(...slotClasses);
+  input.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
 
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.className = "collage-slot-input";
+    const reader = new FileReader();
+    reader.onload = (loadEvent) => {
+      preview.src = loadEvent.target.result;
+      preview.classList.remove("hidden");
+      placeholder.classList.add("hidden");
+      preview.alt = `Collage slot ${index + 1}`;
+    };
+    reader.readAsDataURL(file);
+  });
+});
 
-    const placeholder = document.createElement("span");
-    placeholder.className = "collage-slot-placeholder";
-    placeholder.textContent = `Upload photo ${index + 1}`;
-
-    const preview = document.createElement("img");
-    preview.className = "collage-slot-image hidden";
-    preview.alt = `Collage slot ${index + 1}`;
-
-    input.addEventListener("change", (event) => {
-      const file = event.target.files?.[0];
-      if (!file || !file.type.startsWith("image/")) return;
-
-      const reader = new FileReader();
-      reader.onload = (loadEvent) => {
-        preview.src = loadEvent.target.result;
-        preview.classList.remove("hidden");
-        placeholder.classList.add("hidden");
-      };
-      reader.readAsDataURL(file);
-    });
-
-    slot.append(input, placeholder, preview);
-    collageGrid.append(slot);
-  }
-}
-
-createCollageSlots();
 renderItinerary();

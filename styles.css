@@ -305,10 +305,6 @@ textarea {
   border-color: #e7a4c1;
 }
 
-.collage-help {
-  margin: 0.2rem 0 1rem;
-  color: #6b2441;
-}
 
 .collage-frame {
   width: min(760px, 100%);

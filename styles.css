@@ -79,6 +79,13 @@ body {
   transform: translateY(-2px);
 }
 
+.primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
 .ghost-button {
   border: 1px solid rgba(255, 255, 255, 0.7);
   background: transparent;
@@ -250,6 +257,25 @@ textarea {
   background: #fff;
 }
 
+.letter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.letter-status {
+  margin: 0;
+  font-weight: 600;
+  color: #7a2c50;
+}
+
+#letterTextbox.published {
+  background: #fff6fb;
+  border-style: solid;
+  border-color: #e7a4c1;
+}
+
 .collage-help {
   margin: 0.2rem 0 1rem;
   color: #6b2441;
@@ -257,20 +283,76 @@ textarea {
 
 .collage-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 0.9rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: clamp(75px, 9vw, 110px);
+  grid-auto-flow: dense;
+  gap: 0.55rem;
+  min-height: min(78vh, 900px);
+  padding: 1rem;
+  border: 2px solid #ffd1e1;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fff, #fff6fa);
+  overflow: hidden;
+  clip-path: polygon(
+    50% 4%,
+    58% 1%,
+    68% 3%,
+    78% 9%,
+    88% 18%,
+    95% 31%,
+    95% 46%,
+    91% 59%,
+    83% 71%,
+    74% 80%,
+    62% 90%,
+    50% 98%,
+    38% 90%,
+    26% 80%,
+    17% 71%,
+    9% 59%,
+    5% 46%,
+    5% 31%,
+    12% 18%,
+    22% 9%,
+    32% 3%,
+    42% 1%
+  );
 }
 
 .collage-slot {
   position: relative;
-  aspect-ratio: 1 / 1;
   border-radius: 12px;
-  border: 1px dashed #f3b8cf;
+  border: 2px solid rgba(255, 255, 255, 0.9);
   overflow: hidden;
-  background: #fff7fb;
+  background: #ffe6f0;
   display: grid;
   place-items: center;
   cursor: pointer;
+}
+
+.collage-slot--wide {
+  grid-column: span 2;
+}
+
+.collage-slot--tall {
+  grid-row: span 2;
+}
+
+.collage-slot--hero {
+  grid-column: span 3;
+  grid-row: span 3;
+}
+
+.collage-slot--rounded {
+  border-radius: 24px;
+}
+
+.collage-slot--diamond {
+  clip-path: polygon(50% 2%, 98% 50%, 50% 98%, 2% 50%);
+}
+
+.collage-slot--blob {
+  border-radius: 55% 45% 42% 58% / 43% 57% 43% 57%;
 }
 
 .collage-slot-input {
@@ -284,7 +366,7 @@ textarea {
   font-weight: 600;
   color: #7a2c50;
   text-align: center;
-  padding: 0.6rem;
+  padding: 0.8rem;
 }
 
 .collage-slot-image {
@@ -300,5 +382,16 @@ textarea {
 
   .remove-event-button {
     justify-self: start;
+  }
+
+  .collage-layout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    clip-path: none;
+    min-height: 520px;
+  }
+
+  .collage-slot--hero {
+    grid-column: span 2;
+    grid-row: span 2;
   }
 }

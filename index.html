@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divya, Be My Valentine</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app" class="home-view">
+    <section id="hero" class="panel">
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <h1>Hi Divya 💖</h1>
+        <p>This page was made just for you.</p>
+
+        <label class="upload-control" for="bgUpload">
+          Upload our background photo
+          <input id="bgUpload" type="file" accept="image/*" />
+        </label>
+
+        <button id="yesButton" class="primary-button">Will you be my valentine?</button>
+      </div>
+    </section>
+
+    <section id="valentineTabs" class="hidden panel card-layout">
+      <nav class="tabs" aria-label="Valentine content tabs">
+        <button class="tab active" data-tab="itinerary">Itinerary</button>
+        <button class="tab" data-tab="letter">Love Letter</button>
+        <button class="tab" data-tab="collage">Picture Collage</button>
+      </nav>
+
+      <article id="itinerary" class="tab-panel active">
+        <h2>Our Valentine's Itinerary</h2>
+        <p>Type your plans for the day below:</p>
+        <textarea id="itineraryInput" placeholder="Example:
+10:00 AM - Coffee date
+1:00 PM - Lunch
+6:30 PM - Dinner under the stars"></textarea>
+      </article>
+
+      <article id="letter" class="tab-panel">
+        <h2>Love Letter to Divya</h2>
+        <p>Write your letter here:</p>
+        <textarea id="letterInput" placeholder="Dear Divya,
+..."></textarea>
+      </article>
+
+      <article id="collage" class="tab-panel">
+        <h2>Picture Collage</h2>
+        <p>Add photos and adjust each photo size with its slider.</p>
+        <label class="upload-control" for="collageUpload">
+          Add photos to collage
+          <input id="collageUpload" type="file" accept="image/*" multiple />
+        </label>
+        <div id="collageGrid" class="collage-grid" aria-live="polite"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

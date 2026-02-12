@@ -264,6 +264,10 @@ textarea {
   gap: 0.8rem;
 }
 
+.letter-actions--top {
+  margin-bottom: 1rem;
+}
+
 .letter-status {
   margin: 0;
   font-weight: 600;
@@ -281,78 +285,59 @@ textarea {
   color: #6b2441;
 }
 
+.collage-frame {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: clamp(16px, 2.2vw, 24px);
+  background: linear-gradient(135deg, #e2c89b 0%, #f4deb8 35%, #d9ba86 100%);
+  border: 1px solid #caa86f;
+  box-shadow: 0 10px 22px rgba(80, 52, 9, 0.18), inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
 .collage-layout {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-auto-rows: clamp(75px, 9vw, 110px);
-  grid-auto-flow: dense;
-  gap: 0.55rem;
-  min-height: min(78vh, 900px);
-  padding: 1rem;
-  border: 2px solid #ffd1e1;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #fff, #fff6fa);
-  overflow: hidden;
-  clip-path: polygon(
-    50% 4%,
-    58% 1%,
-    68% 3%,
-    78% 9%,
-    88% 18%,
-    95% 31%,
-    95% 46%,
-    91% 59%,
-    83% 71%,
-    74% 80%,
-    62% 90%,
-    50% 98%,
-    38% 90%,
-    26% 80%,
-    17% 71%,
-    9% 59%,
-    5% 46%,
-    5% 31%,
-    12% 18%,
-    22% 9%,
-    32% 3%,
-    42% 1%
-  );
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(6, minmax(60px, 1fr));
+  gap: 0.6rem;
+  background: #ffffff;
+  padding: 0.7rem;
+  border: 1px solid #ececec;
+  min-height: 520px;
 }
 
 .collage-slot {
   position: relative;
-  border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid #e8e8e8;
   overflow: hidden;
-  background: #ffe6f0;
+  background: #f8f8f8;
   display: grid;
   place-items: center;
   cursor: pointer;
 }
 
-.collage-slot--wide {
-  grid-column: span 2;
+.collage-slot--left-top {
+  grid-column: 1;
+  grid-row: 1 / span 3;
 }
 
-.collage-slot--tall {
-  grid-row: span 2;
+.collage-slot--left-bottom {
+  grid-column: 1;
+  grid-row: 4 / span 3;
 }
 
-.collage-slot--hero {
-  grid-column: span 3;
-  grid-row: span 3;
+.collage-slot--right-top {
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
-.collage-slot--rounded {
-  border-radius: 24px;
+.collage-slot--right-middle {
+  grid-column: 2;
+  grid-row: 3 / span 2;
 }
 
-.collage-slot--diamond {
-  clip-path: polygon(50% 2%, 98% 50%, 50% 98%, 2% 50%);
-}
-
-.collage-slot--blob {
-  border-radius: 55% 45% 42% 58% / 43% 57% 43% 57%;
+.collage-slot--right-bottom {
+  grid-column: 2;
+  grid-row: 5 / span 2;
 }
 
 .collage-slot-input {
@@ -385,13 +370,17 @@ textarea {
   }
 
   .collage-layout {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    clip-path: none;
-    min-height: 520px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, minmax(120px, 1fr));
+    min-height: 720px;
   }
 
-  .collage-slot--hero {
-    grid-column: span 2;
-    grid-row: span 2;
+  .collage-slot--left-top,
+  .collage-slot--left-bottom,
+  .collage-slot--right-top,
+  .collage-slot--right-middle,
+  .collage-slot--right-bottom {
+    grid-column: 1;
+    grid-row: auto;
   }
 }

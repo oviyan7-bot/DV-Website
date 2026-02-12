@@ -67,11 +67,16 @@ function showStatus(message) {
 }
 
 function toBase64(value) {
-  return btoa(unescape(encodeURIComponent(value)));
+  return btoa(unescape(encodeURIComponent(value)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
 }
 
 function fromBase64(value) {
-  return decodeURIComponent(escape(atob(value)));
+  const padded = (value + "===").slice(0, value.length + ((4 - (value.length % 4)) % 4));
+  const normalized = padded.replace(/-/g, "+").replace(/_/g, "/");
+  return decodeURIComponent(escape(atob(normalized)));
 }
 
 function getState() {
@@ -176,6 +181,11 @@ function renderCollage() {
       placeholder.classList.remove("hidden");
     }
   });
+
+  const firstImage = collageImages.find(Boolean);
+  hero.style.backgroundImage = firstImage
+    ? `linear-gradient(rgba(48, 5, 27, 0.35), rgba(48, 5, 27, 0.35)), url('${firstImage}')`
+    : defaultHeroBackground;
 }
 
 function applyState(state) {
@@ -242,6 +252,7 @@ function loadInitialState() {
       applyState(JSON.parse(fromBase64(snapshotParam)));
       if (readonlyParam === "1") {
         applyReadOnlyMode();
+        revealValentineContent("Shared read-only version 💘", "itinerary");
       }
       return;
     } catch (error) {
@@ -292,11 +303,31 @@ copyShareLinkButton.addEventListener("click", async () => {
   const shareUrl = getShareUrl();
 
   try {
+    if (!navigator.clipboard?.writeText) {
+      throw new Error("Clipboard API unavailable");
+    }
     await navigator.clipboard.writeText(shareUrl);
-    showStatus("Read-only link copied. She can only press Yes to view your saved version.");
+    showStatus("Read-only link copied. Opening it shows your saved version in read-only mode.");
   } catch (error) {
+    const fallbackInput = document.createElement("textarea");
+    fallbackInput.value = shareUrl;
+    fallbackInput.setAttribute("readonly", "");
+    fallbackInput.style.position = "fixed";
+    fallbackInput.style.opacity = "0";
+    document.body.appendChild(fallbackInput);
+    fallbackInput.focus();
+    fallbackInput.select();
+
+    const copied = document.execCommand("copy");
+    document.body.removeChild(fallbackInput);
+
+    if (copied) {
+      showStatus("Read-only link copied.");
+      return;
+    }
+
     window.prompt("Copy this read-only link:", shareUrl);
-    showStatus("Could not access clipboard automatically, but the link is ready to copy.");
+    showStatus("Could not auto-copy, but the link is ready to copy.");
   }
 });
 

@@ -119,6 +119,31 @@ body {
   color: #ffdce9;
 }
 
+
+.ghost-button--dark {
+  color: #631535;
+  border-color: #f0b4cc;
+  background: #ffe6f1;
+}
+
+.ghost-button--dark:hover {
+  background: #ffd5e7;
+}
+
+.save-share-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.save-share-status {
+  margin: 0;
+  font-weight: 600;
+  color: #7a2c50;
+}
+
 .hidden {
   display: none !important;
 }
@@ -313,6 +338,10 @@ textarea {
   display: grid;
   place-items: center;
   cursor: pointer;
+}
+
+.collage-slot.read-only-slot {
+  cursor: default;
 }
 
 .collage-slot--left-top {

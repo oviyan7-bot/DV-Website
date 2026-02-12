@@ -116,6 +116,11 @@ body {
   display: none !important;
 }
 
+
+#app.content-revealed #hero {
+  min-height: 68vh;
+}
+
 .card-layout {
   margin: 2rem auto 3rem;
   padding: 1.2rem;

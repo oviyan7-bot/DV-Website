@@ -13,6 +13,10 @@ const eventTitle = document.getElementById("eventTitle");
 const eventLocation = document.getElementById("eventLocation");
 const itineraryList = document.getElementById("itineraryList");
 
+const letterTextbox = document.getElementById("letterTextbox");
+const publishLetterButton = document.getElementById("publishLetterButton");
+const letterStatus = document.getElementById("letterStatus");
+
 const collageGrid = document.getElementById("collageGrid");
 
 const defaultHeroBackground =
@@ -59,6 +63,20 @@ tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     setActiveTab(tab.dataset.tab);
   });
+});
+
+
+let isLetterPublished = false;
+
+publishLetterButton.addEventListener("click", () => {
+  if (isLetterPublished) return;
+
+  isLetterPublished = true;
+  letterTextbox.readOnly = true;
+  letterTextbox.classList.add("published");
+  publishLetterButton.disabled = true;
+  publishLetterButton.textContent = "Published ✨";
+  letterStatus.textContent = "Your letter is published and can no longer be edited.";
 });
 
 const itineraryItems = [];
@@ -115,12 +133,33 @@ addEventButton.addEventListener("click", () => {
   renderItinerary();
 });
 
-function createCollageSlots(slotCount = 8) {
+const collageSlotLayouts = [
+  { col: 2, row: 1, width: 2, height: 2, style: "collage-slot--rounded" },
+  { col: 4, row: 1, width: 2, height: 2, style: "collage-slot--blob" },
+  { col: 1, row: 2, width: 2, height: 2, style: "collage-slot--diamond" },
+  { col: 6, row: 2, width: 2, height: 2, style: "collage-slot--rounded" },
+  { col: 3, row: 3, width: 3, height: 2, style: "collage-slot--blob" },
+  { col: 1, row: 4, width: 2, height: 2, style: "collage-slot--rounded" },
+  { col: 6, row: 4, width: 2, height: 2, style: "collage-slot--diamond" },
+  { col: 3, row: 5, width: 2, height: 2, style: "collage-slot--rounded" },
+  { col: 5, row: 5, width: 2, height: 2, style: "collage-slot--blob" },
+  { col: 2, row: 7, width: 2, height: 2, style: "collage-slot--diamond" },
+  { col: 4, row: 7, width: 2, height: 2, style: "collage-slot--rounded" },
+  { col: 6, row: 7, width: 2, height: 2, style: "collage-slot--blob" },
+  { col: 3, row: 9, width: 2, height: 2, style: "collage-slot--rounded" },
+  { col: 5, row: 9, width: 2, height: 2, style: "collage-slot--diamond" },
+];
+
+function createCollageSlots(slotPlan = collageSlotLayouts) {
   collageGrid.innerHTML = "";
 
-  for (let index = 0; index < slotCount; index += 1) {
+  slotPlan.forEach((layout, index) => {
     const slot = document.createElement("label");
     slot.className = "collage-slot";
+    slot.classList.add(layout.style);
+    slot.style.gridColumn = `${layout.col} / span ${layout.width}`;
+    slot.style.gridRow = `${layout.row} / span ${layout.height}`;
+    slot.style.setProperty("--slot-hue", String(327 + (index * 8) % 35));
 
     const input = document.createElement("input");
     input.type = "file";
@@ -150,7 +189,7 @@ function createCollageSlots(slotCount = 8) {
 
     slot.append(input, placeholder, preview);
     collageGrid.append(slot);
-  }
+  });
 }
 
 createCollageSlots();

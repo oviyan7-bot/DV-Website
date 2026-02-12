@@ -59,13 +59,19 @@
 
         <div class="letter-paper">
           <textarea id="letterTextbox" placeholder="Write your message here..."></textarea>
+          <div class="letter-actions">
+            <button id="publishLetterButton" class="primary-button" type="button">Publish letter 💌</button>
+            <p id="letterStatus" class="letter-status" aria-live="polite"></p>
+          </div>
         </div>
       </article>
 
       <article id="collage" class="tab-panel">
         <h2>Picture Collage</h2>
         <p class="collage-help">Upload each photo into a slot to build your collage layout.</p>
-        <div id="collageGrid" class="collage-layout" aria-live="polite"></div>
+        <div class="collage-shell">
+          <div id="collageGrid" class="collage-layout" aria-live="polite"></div>
+        </div>
       </article>
     </section>
   </main>

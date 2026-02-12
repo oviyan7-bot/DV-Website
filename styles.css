@@ -79,6 +79,13 @@ body {
   transform: translateY(-2px);
 }
 
+.primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
 .ghost-button {
   border: 1px solid rgba(255, 255, 255, 0.7);
   background: transparent;
@@ -250,27 +257,72 @@ textarea {
   background: #fff;
 }
 
+.letter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.letter-status {
+  margin: 0;
+  font-weight: 600;
+  color: #7a2c50;
+}
+
+#letterTextbox.published {
+  background: #fff6fb;
+  border-style: solid;
+  border-color: #e7a4c1;
+}
+
 .collage-help {
   margin: 0.2rem 0 1rem;
   color: #6b2441;
 }
 
+.collage-shell {
+  padding: 0.9rem;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #fff, #ffeaf3);
+  border: 2px solid #ffc5da;
+}
+
 .collage-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 0.9rem;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-rows: repeat(10, minmax(62px, 1fr));
+  gap: 0.55rem;
+  min-height: min(88vh, 980px);
+  padding: 1rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fff, #fff5f9);
+  overflow: hidden;
+  clip-path: polygon(50% 4%, 61% 1%, 75% 4%, 87% 14%, 95% 28%, 95% 46%, 90% 61%, 80% 73%, 67% 84%, 50% 98%, 33% 84%, 20% 73%, 10% 61%, 5% 46%, 5% 28%, 13% 14%, 25% 4%, 39% 1%);
 }
 
 .collage-slot {
   position: relative;
-  aspect-ratio: 1 / 1;
   border-radius: 12px;
-  border: 1px dashed #f3b8cf;
+  border: 2px solid rgba(255, 255, 255, 0.95);
   overflow: hidden;
-  background: #fff7fb;
+  background: hsl(var(--slot-hue, 335) 100% 92%);
   display: grid;
   place-items: center;
   cursor: pointer;
+  box-shadow: 0 6px 16px rgba(123, 44, 80, 0.12);
+}
+
+.collage-slot--rounded {
+  border-radius: 24px;
+}
+
+.collage-slot--diamond {
+  clip-path: polygon(50% 1%, 99% 50%, 50% 99%, 1% 50%);
+}
+
+.collage-slot--blob {
+  border-radius: 61% 39% 48% 52% / 47% 60% 40% 53%;
 }
 
 .collage-slot-input {
@@ -278,13 +330,16 @@ textarea {
   inset: 0;
   opacity: 0;
   cursor: pointer;
+  z-index: 2;
 }
 
 .collage-slot-placeholder {
-  font-weight: 600;
+  font-weight: 700;
   color: #7a2c50;
   text-align: center;
-  padding: 0.6rem;
+  padding: 0.8rem;
+  line-height: 1.35;
+  font-size: 0.94rem;
 }
 
 .collage-slot-image {
@@ -300,5 +355,12 @@ textarea {
 
   .remove-event-button {
     justify-self: start;
+  }
+
+  .collage-layout {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: repeat(10, minmax(46px, 1fr));
+    clip-path: none;
+    min-height: 600px;
   }
 }

@@ -3,6 +3,10 @@ const panels = Array.from(document.querySelectorAll('.tab-panel'));
 const itineraryList = document.getElementById('itineraryList');
 const letterContent = document.getElementById('letterContent');
 const collageGrid = document.getElementById('collageGrid');
+const yesButton = document.getElementById('yesButton');
+const noButton = document.getElementById('noButton');
+const proposalResponse = document.getElementById('proposalResponse');
+const valentineTabs = document.getElementById('valentineTabs');
 
 const itineraryItems = [
   { time: '1:00 PM', activity: 'Lunch', location: 'Yauatcha' },
@@ -40,6 +44,13 @@ const collagePhotos = [
 function setActiveTab(tabName) {
   tabs.forEach((button) => button.classList.toggle('active', button.dataset.tab === tabName));
   panels.forEach((panel) => panel.classList.toggle('active', panel.id === tabName));
+}
+
+function revealValentineContent() {
+  valentineTabs.hidden = false;
+  proposalResponse.textContent = 'YAYYY! Scroll down for your surprise 💗';
+  yesButton.disabled = true;
+  noButton.disabled = true;
 }
 
 function renderItinerary() {
@@ -83,6 +94,11 @@ function renderCollage() {
     collageGrid.appendChild(frame);
   });
 }
+
+yesButton.addEventListener('click', revealValentineContent);
+noButton.addEventListener('click', () => {
+  proposalResponse.textContent = 'Try again baby 😘';
+});
 
 tabs.forEach((tab) => {
   tab.addEventListener('click', () => setActiveTab(tab.dataset.tab));

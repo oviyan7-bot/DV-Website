@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main id="app" class="home-view content-revealed">
+  <main id="app" class="home-view">
     <section id="hero" class="panel">
       <div class="overlay"></div>
       <div class="hero-content">
@@ -15,13 +15,17 @@
         <p>This page was made just for you.</p>
 
         <div class="proposal-box">
-          <p class="proposal-question">Forever yours.</p>
-          <p class="proposal-response">Hardcoded and locked exactly the way I wanted it 💞</p>
+          <p class="proposal-question">Will you be my Valentine?</p>
+          <div class="proposal-actions">
+            <button id="yesButton" class="proposal-btn yes" type="button">Yes 💞</button>
+            <button id="noButton" class="proposal-btn no" type="button">No 🙈</button>
+          </div>
+          <p id="proposalResponse" class="proposal-response" aria-live="polite"></p>
         </div>
       </div>
     </section>
 
-    <section id="valentineTabs" class="panel card-layout">
+    <section id="valentineTabs" class="panel card-layout" hidden>
       <nav class="tabs" aria-label="Valentine content tabs">
         <button class="tab active" data-tab="itinerary" type="button">Itinerary</button>
         <button class="tab" data-tab="letter" type="button">Love Letter</button>

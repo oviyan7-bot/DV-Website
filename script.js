@@ -33,12 +33,11 @@ const letterParagraphs = [
 ];
 
 const collagePhotos = [
-  { src: 'images/photo-1.svg', alt: 'Couple photo 1' },
-  { src: 'images/photo-2.svg', alt: 'Couple photo 2' },
-  { src: 'images/photo-3.svg', alt: 'Couple photo 3' },
-  { src: 'images/photo-4.svg', alt: 'Couple photo 4' },
-  { src: 'images/photo-5.svg', alt: 'Couple photo 5' },
-  { src: 'images/photo-6.svg', alt: 'Couple photo 6' }
+  { src: 'images/26194490-afa9-4179-a044-614b79686007.jpg', alt: 'Photo 1' },
+  { src: 'images/3ba6441c-6bcc-435a-a821-7a4c9de1649f.jpg', alt: 'Photo 2' },
+  { src: 'images/d4f96ec5-4244-4987-b0c1-c51c6be701fd.jpg', alt: 'Photo 3' },
+  { src: 'images/IMG_3911.JPG', alt: 'Photo 4' },
+  { src: 'images/IMG_8443.JPG', alt: 'Photo 5' }
 ];
 
 function setActiveTab(tabName) {

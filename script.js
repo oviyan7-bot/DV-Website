@@ -88,7 +88,7 @@ function renderCollage() {
     img.src = src;
   });
 
-  const heroImage = collagePhotos[0];
+  const heroImage = collagePhotos[2];
   hero.style.backgroundImage = `linear-gradient(rgba(48, 5, 27, 0.35), rgba(48, 5, 27, 0.35)), url('${heroImage}')`;
 }
 

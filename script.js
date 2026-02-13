@@ -9,7 +9,6 @@ const panels = Array.from(document.querySelectorAll(".tab-panel"));
 
 const saveShareBar = document.getElementById("saveShareBar");
 const saveDraftButton = document.getElementById("saveDraftButton");
-const copyShareLinkButton = document.getElementById("copyShareLinkButton");
 const saveShareStatus = document.getElementById("saveShareStatus");
 
 const addEventButton = document.getElementById("addEventButton");
@@ -91,7 +90,19 @@ function getState() {
 function saveDraft() {
   if (isReadOnlyView) return;
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(getState()));
+  const serializedState = JSON.stringify(getState());
+  localStorage.setItem(STORAGE_KEY, serializedState);
+  updateShareableUrl(serializedState);
+}
+
+function updateShareableUrl(serializedState = JSON.stringify(getState())) {
+  const shareUrl = new URL(window.location.href);
+  const encodedSnapshot = toBase64(serializedState);
+
+  shareUrl.searchParams.set(SNAPSHOT_KEY, encodedSnapshot);
+  shareUrl.searchParams.delete(READONLY_KEY);
+
+  window.history.replaceState({}, "", shareUrl);
 }
 
 function renderItinerary() {
@@ -207,16 +218,6 @@ function applyState(state) {
   renderCollage();
 }
 
-function getShareUrl() {
-  const encodedSnapshot = toBase64(JSON.stringify(getState()));
-  const shareUrl = new URL(window.location.href);
-
-  shareUrl.searchParams.set(READONLY_KEY, "1");
-  shareUrl.searchParams.set(SNAPSHOT_KEY, encodedSnapshot);
-
-  return shareUrl.toString();
-}
-
 function applyReadOnlyMode() {
   isReadOnlyView = true;
 
@@ -253,6 +254,8 @@ function loadInitialState() {
       if (readonlyParam === "1") {
         applyReadOnlyMode();
         revealValentineContent("Shared read-only version 💘", "itinerary");
+      } else {
+        revealValentineContent("Loaded latest saved version 💖", "itinerary");
       }
       return;
     } catch (error) {
@@ -296,39 +299,7 @@ tabs.forEach((tab) => {
 
 saveDraftButton.addEventListener("click", () => {
   saveDraft();
-  showStatus("Saved. Your latest itinerary, letter, and collage are stored.");
-});
-
-copyShareLinkButton.addEventListener("click", async () => {
-  const shareUrl = getShareUrl();
-
-  try {
-    if (!navigator.clipboard?.writeText) {
-      throw new Error("Clipboard API unavailable");
-    }
-    await navigator.clipboard.writeText(shareUrl);
-    showStatus("Read-only link copied. Opening it shows your saved version in read-only mode.");
-  } catch (error) {
-    const fallbackInput = document.createElement("textarea");
-    fallbackInput.value = shareUrl;
-    fallbackInput.setAttribute("readonly", "");
-    fallbackInput.style.position = "fixed";
-    fallbackInput.style.opacity = "0";
-    document.body.appendChild(fallbackInput);
-    fallbackInput.focus();
-    fallbackInput.select();
-
-    const copied = document.execCommand("copy");
-    document.body.removeChild(fallbackInput);
-
-    if (copied) {
-      showStatus("Read-only link copied.");
-      return;
-    }
-
-    window.prompt("Copy this read-only link:", shareUrl);
-    showStatus("Could not auto-copy, but the link is ready to copy.");
-  }
+  showStatus("Saved. Share this page URL to open the latest saved version on another device.");
 });
 
 publishLetterButton.addEventListener("click", () => {

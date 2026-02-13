@@ -15,17 +15,17 @@
         <p>This page was made just for you.</p>
 
         <div class="proposal-box">
-          <p class="proposal-question">Will you be my Valentine?</p>
+          <p class="proposal-question">Will you be my valentine?</p>
           <div class="proposal-actions">
-            <button id="yesButton" class="proposal-btn yes" type="button">Yes 💞</button>
-            <button id="noButton" class="proposal-btn no" type="button">No 🙈</button>
+            <button id="yesButton" class="primary-button" type="button">Yes 💘</button>
+            <button id="maybeButton" class="ghost-button" type="button">Need another reason?</button>
           </div>
-          <p id="proposalResponse" class="proposal-response" aria-live="polite"></p>
+          <p id="proposalResponse" class="proposal-response hidden" aria-live="polite"></p>
         </div>
       </div>
     </section>
 
-    <section id="valentineTabs" class="panel card-layout" hidden>
+    <section id="valentineTabs" class="hidden panel card-layout">
       <nav class="tabs" aria-label="Valentine content tabs">
         <button class="tab active" data-tab="itinerary" type="button">Itinerary</button>
         <button class="tab" data-tab="letter" type="button">Love Letter</button>
@@ -45,7 +45,13 @@
       <article id="collage" class="tab-panel">
         <h2>Picture Collage</h2>
         <div class="collage-frame" aria-live="polite">
-          <div id="collageGrid" class="collage-layout"></div>
+          <div id="collageGrid" class="collage-layout">
+            <figure class="collage-slot collage-slot--left-top"><img id="photo1" class="collage-slot-image" alt="Collage photo 1" /></figure>
+            <figure class="collage-slot collage-slot--left-bottom"><img id="photo2" class="collage-slot-image" alt="Collage photo 2" /></figure>
+            <figure class="collage-slot collage-slot--right-top"><img id="photo3" class="collage-slot-image" alt="Collage photo 3" /></figure>
+            <figure class="collage-slot collage-slot--right-middle"><img id="photo4" class="collage-slot-image" alt="Collage photo 4" /></figure>
+            <figure class="collage-slot collage-slot--right-bottom"><img id="photo5" class="collage-slot-image" alt="Collage photo 5" /></figure>
+          </div>
         </div>
       </article>
     </section>

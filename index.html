@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main id="app" class="home-view">
+  <main id="app" class="home-view content-revealed">
     <section id="hero" class="panel">
       <div class="overlay"></div>
       <div class="hero-content">
@@ -15,97 +15,33 @@
         <p>This page was made just for you.</p>
 
         <div class="proposal-box">
-          <p class="proposal-question">Will you be my valentine?</p>
-          <div class="proposal-actions">
-            <button id="yesButton" class="primary-button" type="button">Yes 💘</button>
-            <button id="maybeButton" class="ghost-button" type="button">Need another reason?</button>
-          </div>
-          <p id="proposalResponse" class="proposal-response hidden" aria-live="polite"></p>
+          <p class="proposal-question">Forever yours.</p>
+          <p class="proposal-response">Hardcoded and locked exactly the way I wanted it 💞</p>
         </div>
       </div>
     </section>
 
-    <section id="valentineTabs" class="hidden panel card-layout">
-      <div id="saveShareBar" class="save-share-bar">
-        <button id="saveDraftButton" class="primary-button" type="button">Save latest version</button>
-        <p id="saveShareStatus" class="save-share-status" aria-live="polite"></p>
-      </div>
-
+    <section id="valentineTabs" class="panel card-layout">
       <nav class="tabs" aria-label="Valentine content tabs">
-        <button class="tab active" data-tab="itinerary">Itinerary</button>
-        <button class="tab" data-tab="letter">Love Letter</button>
-        <button class="tab" data-tab="collage">Picture Collage</button>
+        <button class="tab active" data-tab="itinerary" type="button">Itinerary</button>
+        <button class="tab" data-tab="letter" type="button">Love Letter</button>
+        <button class="tab" data-tab="collage" type="button">Picture Collage</button>
       </nav>
 
       <article id="itinerary" class="tab-panel active">
         <h2>Our Valentine's Itinerary</h2>
-
-        <div class="planner-form">
-          <label>
-            Time
-            <input id="eventTime" type="time" />
-          </label>
-          <label>
-            Activity
-            <input id="eventTitle" type="text" placeholder="Sunset walk, Dinner, etc." />
-          </label>
-          <label>
-            Location
-            <input id="eventLocation" type="text" placeholder="Where are we going?" />
-          </label>
-          <button id="addEventButton" class="primary-button" type="button">Add to itinerary</button>
-        </div>
-
         <ol id="itineraryList" class="itinerary-list" aria-live="polite"></ol>
       </article>
 
       <article id="letter" class="tab-panel">
         <h2>Love Letter</h2>
-
-        <div class="letter-paper">
-          <div class="letter-actions letter-actions--top">
-            <button id="publishLetterButton" class="primary-button" type="button">Publish letter 💌</button>
-            <p id="letterStatus" class="letter-status" aria-live="polite"></p>
-          </div>
-          <textarea id="letterTextbox" placeholder="Write your message here..."></textarea>
-        </div>
+        <div id="letterContent" class="letter-paper"></div>
       </article>
 
       <article id="collage" class="tab-panel">
         <h2>Picture Collage</h2>
-
         <div class="collage-frame" aria-live="polite">
-          <div id="collageGrid" class="collage-layout">
-            <label class="collage-slot collage-slot--left-top">
-              <input type="file" accept="image/*" class="collage-slot-input" />
-              <span class="collage-slot-placeholder">Upload photo 1</span>
-              <img class="collage-slot-image hidden" alt="Collage slot 1" />
-            </label>
-
-            <label class="collage-slot collage-slot--left-bottom">
-              <input type="file" accept="image/*" class="collage-slot-input" />
-              <span class="collage-slot-placeholder">Upload photo 2</span>
-              <img class="collage-slot-image hidden" alt="Collage slot 2" />
-            </label>
-
-            <label class="collage-slot collage-slot--right-top">
-              <input type="file" accept="image/*" class="collage-slot-input" />
-              <span class="collage-slot-placeholder">Upload photo 3</span>
-              <img class="collage-slot-image hidden" alt="Collage slot 3" />
-            </label>
-
-            <label class="collage-slot collage-slot--right-middle">
-              <input type="file" accept="image/*" class="collage-slot-input" />
-              <span class="collage-slot-placeholder">Upload photo 4</span>
-              <img class="collage-slot-image hidden" alt="Collage slot 4" />
-            </label>
-
-            <label class="collage-slot collage-slot--right-bottom">
-              <input type="file" accept="image/*" class="collage-slot-input" />
-              <span class="collage-slot-placeholder">Upload photo 5</span>
-              <img class="collage-slot-image hidden" alt="Collage slot 5" />
-            </label>
-          </div>
+          <div id="collageGrid" class="collage-layout"></div>
         </div>
       </article>
     </section>

@@ -1,354 +1,93 @@
-const app = document.getElementById("app");
-const hero = document.getElementById("hero");
-const yesButton = document.getElementById("yesButton");
-const maybeButton = document.getElementById("maybeButton");
-const proposalResponse = document.getElementById("proposalResponse");
-const valentineTabs = document.getElementById("valentineTabs");
-const tabs = Array.from(document.querySelectorAll(".tab"));
-const panels = Array.from(document.querySelectorAll(".tab-panel"));
+const tabs = Array.from(document.querySelectorAll('.tab'));
+const panels = Array.from(document.querySelectorAll('.tab-panel'));
+const itineraryList = document.getElementById('itineraryList');
+const letterContent = document.getElementById('letterContent');
+const collageGrid = document.getElementById('collageGrid');
 
-const saveShareBar = document.getElementById("saveShareBar");
-const saveDraftButton = document.getElementById("saveDraftButton");
-const saveShareStatus = document.getElementById("saveShareStatus");
+const itineraryItems = [
+  { time: '1:00 PM', activity: 'Lunch', location: 'Yauatcha' },
+  { time: '3:00 PM', activity: 'Chill', location: 'BnB' },
+  { time: '5:00 PM', activity: 'Grocery shopping', location: 'Food Square' },
+  { time: '7:00 PM', activity: 'I cook dinner for you', location: 'BnB' },
+  { time: '8:00 PM', activity: 'Romantic dinner', location: 'BnB' },
+  { time: '10:00 PM', activity: 'Wuthering heights / your mystery activity', location: 'Cinema / ?' }
+];
 
-const addEventButton = document.getElementById("addEventButton");
-const eventTime = document.getElementById("eventTime");
-const eventTitle = document.getElementById("eventTitle");
-const eventLocation = document.getElementById("eventLocation");
-const itineraryList = document.getElementById("itineraryList");
+const letterParagraphs = [
+  'Dear Divya,',
+  'HI BABY!!!! HAPPY VALENTINES DAY + 3 MONTHSSS!!!!! Hooray! We made it baby.',
+  "What a journey the last three months have been. So many ups and downs, learnings, difficult conversations, realizations and memories. I legitimately feel like I'm a newer and better person since having reconnected with you. You are genuinely such a good person, deep down and that inspires me to be the best version of myself every day and do what's right.",
+  "I have had such an incredibly fun time these last few months and have made some beautiful core memories <3333. Rolling loud, new year, exploring Bombay together, meeting your friends and family. It has genuinely been such a huge privilege to get to know you on such a deep level. It's like I'm in university again, majoring in Divya (it's been way better than that fuck ahh engineering degree). I genuinely have so much fun when I'm around you, I smile so bright and laugh so loud.",
+  "Thank you for being my home. Thank you for making me so comfortable to be in your presence, in my own skin. I don't ever have to have a mask on around you. You know me on the rawest, deepest level. You know me, the real me. At first it was scary, letting someone in so close to me but now it's been one of the most fulfilling and liberating experiences of my life. Thank you for seeing me and accepting me and all my flaws. I am so incredibly grateful to have you in my life. I have been practicing gratitude lately, and almost every time I close my eyes and picture what I'm grateful for and what enriches my life the most and what makes me happiest, you're always one of the first things to come up :)",
+  "I know the last few weeks have been hard. They've honestly been a little exhausting and draining. We have reached that stage in our relationship where we have to face some harsh truths about each other and more importantly, ourselves. The honeymoon phase is over and this is real now and the path ahead is a bit scary, but it will be 100% worth it I promise you. I have learnt so much about myself and grown so much. I have learned to look deeper within myself and see my flaws and accept my mistakes and It's been difficult but strangely fulfilling at the same time, and I'm sure it's been the same with you. Thank you for providing me with the space to grow. I will do anything to be the version of myself that's best for you, always. That will end up being a better version of myself anyway :). I am so proud of you and myself for communicating, going through the storm and always coming out stronger. Soon, we will be indestructible.",
+  "Thank you for providing me with the privilege to watch you grow. You have grown so much and turned into such a beautiful and strong young woman in these past 3(actually 5) months. I have loved being a part of your journey, whether that's through watching you, supporting you or helping you in whatever little ways I can :)",
+  "We have a long road ahead, and I am scared but more so excited! I promise to always go above and beyond for you. I will always put in the effort (travel to Bombay whenever I have to XD) to make this relationship successful. I am so beyond excited for this amazing weekend we're about to share, and the life we will share together. I love living life with you by my side.",
+  "All of this has made me miss you and the cuddles LOL. I can't wait to squeeze you tomorrow. Thank you for being you, Divya. No matter what rough roads may lie ahead, we will get through them together because we are a team. I am so excited for all the memories we are going to create :)",
+  "Once again, I promise to never take you for granted and treat you as if I'm still trying to get you. I'm sorry if I've been slacking on that lately, I will step up. You're the most beautiful and amazing girl in the world and you deserve the universe and I will always try my best to give it to you. I adore you :)",
+  'Love,',
+  'Piggy'
+];
 
-const letterTextbox = document.getElementById("letterTextbox");
-const publishLetterButton = document.getElementById("publishLetterButton");
-const letterStatus = document.getElementById("letterStatus");
-
-const collageSlots = Array.from(document.querySelectorAll(".collage-slot"));
-
-const defaultHeroBackground =
-  "url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1500&q=80')";
-
-const STORAGE_KEY = "valentinePlannerStateV1";
-const SNAPSHOT_KEY = "snapshot";
-const READONLY_KEY = "readonly";
-
-hero.style.backgroundImage = defaultHeroBackground;
-
-const itineraryItems = [];
-const collageImages = Array(collageSlots.length).fill(null);
-let isLetterPublished = false;
-let isReadOnlyView = false;
+const collagePhotos = [
+  { src: 'images/photo-1.svg', alt: 'Couple photo 1' },
+  { src: 'images/photo-2.svg', alt: 'Couple photo 2' },
+  { src: 'images/photo-3.svg', alt: 'Couple photo 3' },
+  { src: 'images/photo-4.svg', alt: 'Couple photo 4' },
+  { src: 'images/photo-5.svg', alt: 'Couple photo 5' },
+  { src: 'images/photo-6.svg', alt: 'Couple photo 6' }
+];
 
 function setActiveTab(tabName) {
-  tabs.forEach((button) => button.classList.remove("active"));
-  panels.forEach((panel) => panel.classList.remove("active"));
-
-  const selectedTab = tabs.find((tab) => tab.dataset.tab === tabName) || tabs[0];
-  const selectedPanel = document.getElementById(selectedTab.dataset.tab);
-
-  if (!selectedPanel) return;
-
-  selectedTab.classList.add("active");
-  selectedPanel.classList.add("active");
-}
-
-function revealValentineContent(responseText, tabName = "itinerary") {
-  proposalResponse.textContent = responseText;
-  proposalResponse.classList.remove("hidden");
-
-  valentineTabs.classList.remove("hidden");
-  app.classList.add("content-revealed");
-  setActiveTab(tabName);
-
-  valentineTabs.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function showStatus(message) {
-  saveShareStatus.textContent = message;
-}
-
-function toBase64(value) {
-  return btoa(unescape(encodeURIComponent(value)))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-}
-
-function fromBase64(value) {
-  const padded = (value + "===").slice(0, value.length + ((4 - (value.length % 4)) % 4));
-  const normalized = padded.replace(/-/g, "+").replace(/_/g, "/");
-  return decodeURIComponent(escape(atob(normalized)));
-}
-
-function getState() {
-  return {
-    itineraryItems,
-    letterText: letterTextbox.value,
-    isLetterPublished,
-    collageImages,
-  };
-}
-
-function saveDraft() {
-  if (isReadOnlyView) return;
-
-  const serializedState = JSON.stringify(getState());
-  localStorage.setItem(STORAGE_KEY, serializedState);
-  updateShareableUrl(serializedState);
-}
-
-function updateShareableUrl(serializedState = JSON.stringify(getState())) {
-  const shareUrl = new URL(window.location.href);
-  const encodedSnapshot = toBase64(serializedState);
-
-  shareUrl.searchParams.set(SNAPSHOT_KEY, encodedSnapshot);
-  shareUrl.searchParams.delete(READONLY_KEY);
-
-  window.history.replaceState({}, "", shareUrl);
+  tabs.forEach((button) => button.classList.toggle('active', button.dataset.tab === tabName));
+  panels.forEach((panel) => panel.classList.toggle('active', panel.id === tabName));
 }
 
 function renderItinerary() {
-  itineraryList.innerHTML = "";
-
-  itineraryItems
-    .slice()
-    .sort((a, b) => a.time.localeCompare(b.time))
-    .forEach((item) => {
-      const li = document.createElement("li");
-      li.className = "itinerary-item";
-
-      const time = document.createElement("div");
-      time.className = "itinerary-time";
-      time.textContent = item.time;
-
-      const details = document.createElement("div");
-      const title = document.createElement("strong");
-      title.textContent = item.title;
-
-      const location = document.createElement("p");
-      location.className = "itinerary-meta";
-      location.textContent = item.location || "Location to be decided";
-
-      details.append(title, location);
-      li.append(time, details);
-
-      if (!isReadOnlyView) {
-        const removeButton = document.createElement("button");
-        removeButton.type = "button";
-        removeButton.className = "remove-event-button";
-        removeButton.textContent = "Remove";
-        removeButton.addEventListener("click", () => {
-          const matchIndex = itineraryItems.findIndex(
-            (entry) =>
-              entry.time === item.time &&
-              entry.title === item.title &&
-              entry.location === item.location
-          );
-
-          if (matchIndex !== -1) {
-            itineraryItems.splice(matchIndex, 1);
-            renderItinerary();
-            saveDraft();
-          }
-        });
-
-        li.append(removeButton);
-      }
-
-      itineraryList.append(li);
-    });
+  itineraryList.innerHTML = '';
+  itineraryItems.forEach((item) => {
+    const li = document.createElement('li');
+    li.className = 'itinerary-item';
+    li.innerHTML = `
+      <div class="itinerary-time">${item.time}</div>
+      <div>
+        <strong>${item.activity}</strong>
+        <p class="itinerary-meta">${item.location}</p>
+      </div>
+    `;
+    itineraryList.appendChild(li);
+  });
 }
 
-function applyLetterPublishState() {
-  letterTextbox.readOnly = isLetterPublished || isReadOnlyView;
-  letterTextbox.classList.toggle("published", isLetterPublished || isReadOnlyView);
-
-  if (isLetterPublished || isReadOnlyView) {
-    publishLetterButton.disabled = true;
-    publishLetterButton.textContent = isReadOnlyView ? "Published letter" : "Published ✨";
-    letterStatus.textContent = "Your letter is published and can no longer be edited.";
-    return;
-  }
-
-  publishLetterButton.disabled = false;
-  publishLetterButton.textContent = "Publish letter 💌";
-  letterStatus.textContent = "";
+function renderLetter() {
+  letterContent.innerHTML = '';
+  letterParagraphs.forEach((paragraph) => {
+    const p = document.createElement('p');
+    p.className = 'letter-paragraph';
+    p.textContent = paragraph;
+    letterContent.appendChild(p);
+  });
 }
 
 function renderCollage() {
-  collageSlots.forEach((slot, index) => {
-    const placeholder = slot.querySelector(".collage-slot-placeholder");
-    const preview = slot.querySelector(".collage-slot-image");
+  collageGrid.innerHTML = '';
+  collagePhotos.forEach((photo) => {
+    const frame = document.createElement('figure');
+    frame.className = 'collage-photo';
 
-    if (!placeholder || !preview) return;
+    const img = document.createElement('img');
+    img.src = photo.src;
+    img.alt = photo.alt;
+    img.loading = 'lazy';
 
-    const imageData = collageImages[index];
-    if (imageData) {
-      preview.src = imageData;
-      preview.classList.remove("hidden");
-      placeholder.classList.add("hidden");
-      preview.alt = `Collage slot ${index + 1}`;
-    } else {
-      preview.src = "";
-      preview.classList.add("hidden");
-      placeholder.classList.remove("hidden");
-    }
+    frame.appendChild(img);
+    collageGrid.appendChild(frame);
   });
-
-  const firstImage = collageImages.find(Boolean);
-  hero.style.backgroundImage = firstImage
-    ? `linear-gradient(rgba(48, 5, 27, 0.35), rgba(48, 5, 27, 0.35)), url('${firstImage}')`
-    : defaultHeroBackground;
 }
-
-function applyState(state) {
-  if (!state || typeof state !== "object") return;
-
-  itineraryItems.splice(0, itineraryItems.length, ...(state.itineraryItems || []));
-  letterTextbox.value = state.letterText || "";
-  isLetterPublished = Boolean(state.isLetterPublished);
-
-  collageImages.fill(null);
-  (state.collageImages || []).forEach((img, index) => {
-    if (index < collageImages.length) {
-      collageImages[index] = img || null;
-    }
-  });
-
-  renderItinerary();
-  applyLetterPublishState();
-  renderCollage();
-}
-
-function applyReadOnlyMode() {
-  isReadOnlyView = true;
-
-  maybeButton.classList.add("hidden");
-  saveShareBar.classList.add("hidden");
-  addEventButton.disabled = true;
-  publishLetterButton.disabled = true;
-
-  [eventTime, eventTitle, eventLocation].forEach((input) => {
-    input.disabled = true;
-  });
-
-  collageSlots.forEach((slot) => {
-    const input = slot.querySelector(".collage-slot-input");
-    if (input) {
-      input.disabled = true;
-      input.classList.add("hidden");
-    }
-    slot.classList.add("read-only-slot");
-  });
-
-  applyLetterPublishState();
-  renderItinerary();
-}
-
-function loadInitialState() {
-  const params = new URLSearchParams(window.location.search);
-  const snapshotParam = params.get(SNAPSHOT_KEY);
-  const readonlyParam = params.get(READONLY_KEY);
-
-  if (snapshotParam) {
-    try {
-      applyState(JSON.parse(fromBase64(snapshotParam)));
-      if (readonlyParam === "1") {
-        applyReadOnlyMode();
-        revealValentineContent("Shared read-only version 💘", "itinerary");
-      } else {
-        revealValentineContent("Loaded latest saved version 💖", "itinerary");
-      }
-      return;
-    } catch (error) {
-      showStatus("Could not load saved snapshot from the link.");
-    }
-  }
-
-  const savedDraft = localStorage.getItem(STORAGE_KEY);
-  if (!savedDraft) {
-    renderItinerary();
-    applyLetterPublishState();
-    renderCollage();
-    return;
-  }
-
-  try {
-    applyState(JSON.parse(savedDraft));
-  } catch (error) {
-    renderItinerary();
-    applyLetterPublishState();
-    renderCollage();
-  }
-}
-
-yesButton.addEventListener("click", () => {
-  revealValentineContent("She said YES. 💞", "itinerary");
-});
-
-maybeButton.addEventListener("click", () => {
-  revealValentineContent(
-    "Reason #108: Every plan is better with Divya in it ✨",
-    "letter"
-  );
-});
 
 tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    setActiveTab(tab.dataset.tab);
-  });
+  tab.addEventListener('click', () => setActiveTab(tab.dataset.tab));
 });
 
-saveDraftButton.addEventListener("click", () => {
-  saveDraft();
-  showStatus("Saved. Share this page URL to open the latest saved version on another device.");
-});
-
-publishLetterButton.addEventListener("click", () => {
-  if (isLetterPublished || isReadOnlyView) return;
-
-  isLetterPublished = true;
-  applyLetterPublishState();
-  saveDraft();
-});
-
-addEventButton.addEventListener("click", () => {
-  if (isReadOnlyView || !eventTitle.value.trim()) return;
-
-  itineraryItems.push({
-    time: eventTime.value || "TBD",
-    title: eventTitle.value.trim(),
-    location: eventLocation.value.trim(),
-  });
-
-  eventTitle.value = "";
-  eventLocation.value = "";
-  eventTime.value = "";
-
-  renderItinerary();
-  saveDraft();
-});
-
-letterTextbox.addEventListener("input", () => {
-  saveDraft();
-});
-
-collageSlots.forEach((slot, index) => {
-  const input = slot.querySelector(".collage-slot-input");
-  if (!input) return;
-
-  input.addEventListener("change", (event) => {
-    if (isReadOnlyView) return;
-
-    const file = event.target.files?.[0];
-    if (!file || !file.type.startsWith("image/")) return;
-
-    const reader = new FileReader();
-    reader.onload = (loadEvent) => {
-      collageImages[index] = loadEvent.target.result;
-      renderCollage();
-      saveDraft();
-    };
-    reader.readAsDataURL(file);
-  });
-});
-
-loadInitialState();
+renderItinerary();
+renderLetter();
+renderCollage();
